@@ -1,13 +1,23 @@
 import { create } from "zustand";
-import { persist } from "zustand/middleware";
+import { authApi } from "../api/auth";
+import { persist, createJSONStorage } from "zustand/middleware";
 
-const useUserStore = ((get,set) => ({
-user: null,
-token: "",
-login: async(input) => {
-    return input
-} ,
-logout: () => set({user:null, token: ""})
-}))
+const useUserStore = create(
+  persist((set, get) => ({
+    user: [],
+    token: null,
+    login: async (input) => {
+      const res = await authApi.post("/login", input);
+      const { result } = res.data;
+      set({ token: result.token, user: result.payload });
+      return { message: "success", role: result.payload?.role };
+    },
+    logout: () => set({ token: "", user: null }),
+  })),
+  {
+    name: "userState",
+    storage: createJSONStorage(() => localStorage),
+  }
+);
 
-export default useUserStore
+export default useUserStore;

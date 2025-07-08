@@ -1,7 +1,9 @@
 import { Link } from "react-router"
+import useUserStore from "../../stores/authStore"
 
 function MainNav() {
-  const login = true
+  const user = useUserStore(state=> state.user)
+  const logout = useUserStore(state=> state.logout)
   return (
     <div className="navbar bg-accent-content shadow-sm">
   <div className="navbar-start">
@@ -12,11 +14,15 @@ function MainNav() {
   <div className="navbar-center flex justify-between">
     <Link to="/" className="btn btn-ghost text-sm">HOME</Link>
     <Link to="/recipies" className="btn btn-ghost text-sm">RECIPIES</Link>
+    { user &&
+      <>
     <Link to="/user/create/recipe"className="btn btn-ghost text-sm">CREATE</Link>
     <Link to="/user/recipies"className="btn btn-ghost text-sm">MY RECIPIES</Link>
+    </>
+    }
   </div>
   <div className="navbar-end">
-   { !login ? 
+   { !user ? 
      <div>
     <Link to="/login" className="btn btn-ghost text-xl">Login</Link>
   </div> 
@@ -37,7 +43,7 @@ function MainNav() {
             Profile
           </Link>
         </li>
-        <li><Link to="/">Logout</Link></li>
+        <li><Link to="/" onClick={logout}>Logout</Link></li>
       </ul>
     </div> }
       </div> 

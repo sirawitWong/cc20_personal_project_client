@@ -1,48 +1,89 @@
-import { BrowserRouter, Routes, Route } from "react-router";
+import { lazy, Suspense } from "react";
+import { createBrowserRouter, Navigate, RouterProvider } from "react-router";
 import MainLayout from "../layouts/MainLayout";
 import AdminLayout from "../layouts/AdminLayout";
-import Home from "../pages/user/Home";
-import Recipies from "../pages/user/Recipies";
-import Recipe from "../pages/user/Recipe";
-import Login from "../pages/user/Login";
-import Profile from "../pages/user/Profile";
-import CreateRecipe from "../pages/user/CreateRecipe";
-import UserManage from "../pages/admin/UserManage";
-import RecipeManage from "../pages/admin/RecipeManage";
-import IngredientManage from "../pages/admin/IngredientManage";
-import EquipmentManage from "../pages/admin/EquipmentManage";
-import ReviewManage from "../pages/admin/ReviewManage";
-import AdminRegister from "../pages/admin/AdminRegister";
-import Manage from "../pages/admin/Manage";
-import MyRecipe from "../pages/user/MyRecipe";
+import useUserStore from "../stores/authStore";
+
+const Home = lazy(() => import("../pages/user/Home"));
+const Recipies = lazy(() => import("../pages/user/Recipies"));
+const Recipe = lazy(() => import("../pages/user/Recipe"));
+const Login = lazy(() => import("../pages/user/Login"));
+const Profile = lazy(() => import("../pages/user/Profile"));
+const CreateRecipe = lazy(() => import("../pages/user/CreateRecipe"));
+const UserManage = lazy(() => import("../pages/admin/UserManage"));
+const RecipeManage = lazy(() => import("../pages/admin/RecipeManage"));
+const IngredientManage = lazy(() => import("../pages/admin/IngredientManage"));
+const EquipmentManage = lazy(() => import("../pages/admin/EquipmentManage"));
+const ReviewManage = lazy(() => import("../pages/admin/ReviewManage"));
+const AdminRegister = lazy(() => import("../pages/admin/AdminRegister"));
+const Manage = lazy(() => import("../pages/admin/Manage"));
+const MyRecipe = lazy(() => import("../pages/user/MyRecipe"));
+
+const guestRouter = createBrowserRouter([
+  {
+    path: "/",
+    element: <MainLayout />,
+    children: [
+      { index: true, element: <Home /> },
+      { path: "/recipies", element: <Recipies /> },
+      { path: "/recipe/:id", element: <Recipe /> },
+      { path: "/login", element: <Login /> },
+      { path: "*", element: <Navigate to="/" /> },
+    ],
+  },
+]);
+
+const userRouter = createBrowserRouter([
+  {
+    path: "/",
+    element: <MainLayout />,
+    children: [
+      { index: true, element: <Home /> },
+      { path: "/recipies", element: <Recipies /> },
+      { path: "/recipe/:id", element: <Recipe /> },
+      { path: "/user", element: <Profile /> },
+      { path: "/user/create/recipe", element: <CreateRecipe /> },
+      { path: "/user/recipies", element: <MyRecipe /> },
+      { path: "*", element: <Navigate to="/" /> },
+    ],
+  },
+]);
+
+const adminRouter = createBrowserRouter([
+  {
+    path: "/",
+    element: <AdminLayout />,
+    children: [
+      { index: true, element: <Manage /> },
+      { path: "/admin/register", element: <AdminRegister /> },
+      { path: "/admin/manage/user", element: <UserManage /> },
+      { path: "/admin/manage/recipe", element: <RecipeManage /> },
+      { path: "/admin/manage/ingredient", element: <IngredientManage /> },
+      { path: "/admin/manage/equipment", element: <EquipmentManage /> },
+      { path: "/admin/manage/review", element: <ReviewManage /> },
+      { path: "*", element: <Navigate to="/" /> },
+    ],
+  },
+]);
 
 export default function AppRouter() {
-	return (
-		<BrowserRouter>
-			<Routes>
-				<Route path="/" element={<MainLayout />}>
-					<Route path="/" element={<Home />} />
-					<Route path="/recipies" element={<Recipies />} />
-					<Route path="/recipe/:id" element={<Recipe />} />
-					<Route path="/login" element={<Login />} />
-				</Route>
+  const user = useUserStore((state) => state.user);
+  console.log(user);
 
-				<Route path="user" element={<MainLayout />}>
-					<Route index element={<Profile />} />
-					<Route path="/user/create/recipe" element={<CreateRecipe />} />
-					<Route path="/user/recipies" element={<MyRecipe />} />
-				</Route>
+  let finalRouter = null;
+  if (user?.role === "ADMIN" || user?.role === "SUPER") {
+    finalRouter = adminRouter;
+  } else if (user?.role === "USER") {
+    finalRouter = userRouter;
+  } else {
+    finalRouter = guestRouter;
+  }
 
-				<Route path="admin" element={<AdminLayout />}>
-					<Route index element={<Manage />} />
-					<Route path="/admin/register" element={<AdminRegister />} />
-					<Route path="/admin/manage/user" element={<UserManage />} />
-					<Route path="/admin/manage/recipe" element={<RecipeManage />} />
-					<Route path="/admin/manage/ingredient" element={<IngredientManage />} />
-					<Route path="/admin/manage/equipment" element={<EquipmentManage />} />
-					<Route path="/admin/manage/review" element={<ReviewManage />} />
-				</Route>
-			</Routes>
-		</BrowserRouter>
-	)
+  return (
+    <Suspense
+      fallback={<span className="loading loading-spinner text-neutral"></span>}
+    >
+      <RouterProvider key={user?.id} router={finalRouter} />
+    </Suspense>
+  );
 }
