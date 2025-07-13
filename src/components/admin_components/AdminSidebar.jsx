@@ -1,7 +1,11 @@
-import { Link } from "react-router";
+import { NavLink } from "react-router";
 import useUserStore from "../../stores/authStore";
 
 function AdminSidebar() {
+  const style = {
+    active: "bg-blue-400 flex px-4 py-4 gap-2",
+    inactive: "flex px-4 py-4 gap-2 hover:bg-blue-400",
+  };
   const user = useUserStore((state) => state.user);
   const role = user.role;
   return (
@@ -9,46 +13,51 @@ function AdminSidebar() {
       <div className="flex flex-col py-12 items-center">
         <p>{role}</p>
       </div>
+      <NavLink
+        to="/"
+        className={({ isActive }) => (isActive ? style.active : style.inactive)}
+      >
+        Manage
+      </NavLink>
+
       {role === "SUPER" && (
         <>
-          <Link
+          <NavLink
             to="/admin/register"
-            className="flex px-4 py-4 gap-2 hover:bg-blue-400"
+            className={({ isActive }) =>
+              isActive ? style.active : style.inactive
+            }
           >
             Register Admin
-          </Link>
-          <Link
+          </NavLink>
+          <NavLink
             to="/admin/manage/user"
-            className="flex px-4 py-4 gap-2 hover:bg-blue-400"
+            className={({ isActive }) =>
+              isActive ? style.active : style.inactive
+            }
           >
             Manage User
-          </Link>
+          </NavLink>
         </>
       )}
-      <Link
+      <NavLink
         to="/admin/manage/recipe"
-        className="flex px-4 py-4 gap-2 hover:bg-blue-400"
+        className={({ isActive }) => (isActive ? style.active : style.inactive)}
       >
         Recipies
-      </Link>
-      <Link
+      </NavLink>
+      <NavLink
         to="/admin/manage/ingredient"
-        className="flex px-4 py-4 gap-2 hover:bg-blue-400"
+        className={({ isActive }) => (isActive ? style.active : style.inactive)}
       >
         Ingredients
-      </Link>
-      <Link
+      </NavLink>
+      <NavLink
         to="/admin/manage/equipment"
-        className="flex px-4 py-4 gap-2 hover:bg-blue-400"
+        className={({ isActive }) => (isActive ? style.active : style.inactive)}
       >
         Equipments
-      </Link>
-      <Link
-        to="/admin/manage/review"
-        className="flex px-4 py-4 gap-2 hover:bg-blue-400"
-      >
-        Reviews
-      </Link>
+      </NavLink>
     </div>
   );
 }

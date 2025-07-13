@@ -5,3 +5,9 @@ export const getMe = async (token) => {
     headers: { Authorization: `Bearer ${token}` },
   });
 };
+//later
+export const editUser = async (token, id, value) => {
+  return await axios.patch("http://localhost:3033/api/auth/user", value,{
+    headers: { Authorization: `Bearer ${token}` },
+  });
+} 

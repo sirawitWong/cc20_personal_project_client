@@ -1,7 +1,8 @@
+import EquipmentsList from "../../components/admin_components/EquipmentsList"
 
 function EquipmentManage() {
   return (
-    <div>EquipmentManage</div>
+    <div><EquipmentsList/></div>
   )
 }
 

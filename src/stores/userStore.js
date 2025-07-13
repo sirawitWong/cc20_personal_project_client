@@ -1,15 +1,15 @@
-import { create } from "zustand";
-import { getAllRecipies, getRecipeById } from "../api/recipe";
 
-const useRecipiesStore = create((set, get) => ({
-    recipies: [],
-    current_recipe: null,
-    getAllRecipies: async () => {
+import { create } from "zustand";
+
+const useIngredientStore = create((set, get) => ({
+    Ingredients: [],
+    current_ingredient: null,
+    getAllIngredients: async () => {
         const response = await getAllRecipies()
         set({recipies: response.data.result})
         return response
     },
-    getRecipeById: async (id) => {
+    getIngredientById: async (id) => {
         const response = await getRecipeById(id)
         set({current_recipe: response.data.result})
         return response

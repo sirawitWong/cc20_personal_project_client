@@ -1,6 +1,10 @@
+import CardContainer from "../../components/CardContainer"
+
 function Recipies() {
   return (
-    <div>Recipies</div>
+    <div>
+      <CardContainer />
+    </div>
   )
 }
 

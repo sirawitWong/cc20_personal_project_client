@@ -1,7 +1,8 @@
+import UserList from "../../components/admin_components/UserList"
 
 function UserManage() {
   return (
-    <div>UserManage</div>
+    <div><UserList /></div>
   )
 }
 

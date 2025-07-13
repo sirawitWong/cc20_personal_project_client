@@ -1,7 +1,8 @@
+import IngredientsList from "../../components/admin_components/IngredientsList"
 
 function IngredientManage() {
   return (
-    <div>IngredientManage</div>
+    <div><IngredientsList /></div>
   )
 }
 

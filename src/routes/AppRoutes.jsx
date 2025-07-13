@@ -14,7 +14,6 @@ const UserManage = lazy(() => import("../pages/admin/UserManage"));
 const RecipeManage = lazy(() => import("../pages/admin/RecipeManage"));
 const IngredientManage = lazy(() => import("../pages/admin/IngredientManage"));
 const EquipmentManage = lazy(() => import("../pages/admin/EquipmentManage"));
-const ReviewManage = lazy(() => import("../pages/admin/ReviewManage"));
 const AdminRegister = lazy(() => import("../pages/admin/AdminRegister"));
 const Manage = lazy(() => import("../pages/admin/Manage"));
 const MyRecipe = lazy(() => import("../pages/user/MyRecipe"));
@@ -60,7 +59,6 @@ const adminRouter = createBrowserRouter([
       { path: "/admin/manage/recipe", element: <RecipeManage /> },
       { path: "/admin/manage/ingredient", element: <IngredientManage /> },
       { path: "/admin/manage/equipment", element: <EquipmentManage /> },
-      { path: "/admin/manage/review", element: <ReviewManage /> },
       { path: "*", element: <Navigate to="/" /> },
     ],
   },
@@ -68,7 +66,6 @@ const adminRouter = createBrowserRouter([
 
 export default function AppRouter() {
   const user = useUserStore((state) => state.user);
-  console.log(user);
 
   let finalRouter = null;
   if (user?.role === "ADMIN" || user?.role === "SUPER") {

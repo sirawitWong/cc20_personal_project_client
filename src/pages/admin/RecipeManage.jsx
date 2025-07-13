@@ -1,7 +1,10 @@
+import RecipiesList from "../../components/admin_components/RecipiesList"
 
 function RecipeManage() {
   return (
-    <div>RecipeManage</div>
+    <div>
+    <RecipiesList/>
+    </div>
   )
 }
 
