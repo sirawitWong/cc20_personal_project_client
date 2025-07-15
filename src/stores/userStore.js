@@ -1,20 +1,20 @@
 
 import { create } from "zustand";
+import { deleteUser, getAllUser } from "../api/admin";
 
-const useIngredientStore = create((set, get) => ({
-    Ingredients: [],
-    current_ingredient: null,
-    getAllIngredients: async () => {
-        const response = await getAllRecipies()
-        set({recipies: response.data.result})
+const useUsersStore = create((set, get) => ({
+    users: [],
+    current_user: null,
+    getAllUsers: async (token) => {
+        const response = await getAllUser(token)
+        set({users: response.data.result})
         return response
     },
-    getIngredientById: async (id) => {
-        const response = await getRecipeById(id)
-        set({current_recipe: response.data.result})
+    deleteUser: async (token, id) => {
+        const response = await deleteUser(token, id)
+        get().getAllUsers(token)
         return response
     }
-
 }))
 
-export default useRecipiesStore
+export default useUsersStore

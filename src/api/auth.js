@@ -1,6 +1,5 @@
 import axios from "axios";
 
 export const authApi = axios.create({
-	baseURL: "http://localhost:3033/api/"
-})
-
+  baseURL: "http://localhost:3033/api/",
+});

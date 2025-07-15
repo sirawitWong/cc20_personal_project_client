@@ -4,7 +4,7 @@ import AdminSidebar from "../components/admin_components/AdminSidebar";
 
 export default function AdminLayout() {
 	return (
-		<div className="flex h-screen w-screen">
+		<div className="flex h-full min-h-screen w-screen">
 			<AdminSidebar />
 			<div className="flex flex-col flex-1">
 				<AdminNav />

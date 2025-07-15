@@ -4,11 +4,11 @@ import useUserStore from "../../stores/authStore";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { loginSchema } from "../../utils/validator";
 import { useState } from "react";
+import { toast } from "react-toastify";
 
 export default function Login() {
   const [resetForm, setReset] = useState(false);
   const login = useUserStore((state) => state.login);
-  const user = useUserStore((state) => state.user);
 
   const { register, handleSubmit, formState } = useForm({
     resolver: yupResolver(loginSchema),
@@ -22,9 +22,8 @@ export default function Login() {
   const handleLogin = async (data) => {
     try {
       await login(data);
-      roleRedirect(user.role);
     } catch (err) {
-      console.log(err.message);
+      toast.error(err.message)
     }
   };
 

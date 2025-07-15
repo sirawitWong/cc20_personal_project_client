@@ -1,5 +1,6 @@
 import { Link, NavLink } from "react-router";
 import useUserStore from "../../stores/authStore";
+import { useEffect } from "react";
 
 function MainNav() {
   const style = {
@@ -7,7 +8,12 @@ function MainNav() {
     inactive: "tab btn btn-ghost text-sm",
   };
   const user = useUserStore((state) => state.user);
+  const token = useUserStore((state) => state.token);
   const logout = useUserStore((state) => state.logout);
+  const getMe = useUserStore((state) => state.getMe)
+  useEffect(()=>{
+    getMe(token)
+  },[])
   return (
     <>
       <div className="navbar bg-accent-content shadow-sm">
@@ -80,7 +86,7 @@ function MainNav() {
                 <div className="w-10 rounded-full">
                   <img
                     alt="Tailwind CSS Navbar component"
-                    src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
+                    src={user?.profilePic || "https://img.daisyui.com/images/profile/demo/yellingcat@192.webp"}
                   />
                 </div>
               </div>

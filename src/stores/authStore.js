@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { authApi } from "../api/auth";
 import { persist, createJSONStorage } from "zustand/middleware";
+import { getMe } from "../api/user";
 
 const useUserStore = create(
   persist((set, get) => ({
@@ -13,6 +14,11 @@ const useUserStore = create(
       return { message: "success", role: result.payload?.role };
     },
     logout: () => set({ token: "", user: null }),
+    getMe: async (token) => {
+      const res = await getMe(token);
+      const { result } = res.data;
+      set({ user: result });
+    },
   })),
   {
     name: "userState",

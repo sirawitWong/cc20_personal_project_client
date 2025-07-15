@@ -13,6 +13,9 @@ const useRecipiesStore = create((set, get) => ({
         const response = await getRecipeById(id)
         set({current_recipe: response.data.result})
         return response
+    },
+    deleteRecipe: async (id) => {
+        
     }
 
 }))

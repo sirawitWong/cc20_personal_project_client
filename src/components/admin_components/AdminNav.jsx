@@ -1,8 +1,15 @@
 import { Link } from "react-router";
 import useUserStore from "../../stores/authStore";
+import { useEffect } from "react";
 
 function AdminNav() {
+  const user = useUserStore(state=> state.user)
+  const token = useUserStore(state=> state.token)
+  const getMe = useUserStore(state=> state.getMe)
   const logout = useUserStore((state) => state.logout);
+  useEffect(()=>{
+    getMe(token)
+  },[])
   return (
     <div className="flex justify-end navbar shadow-sm bg-info">
       <div className="flex justify-between">
@@ -15,7 +22,7 @@ function AdminNav() {
             <div className="w-10 rounded-full">
               <img
                 alt="Tailwind CSS Navbar component"
-                src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
+                src={user?.profilePic || "https://img.daisyui.com/images/profile/demo/yellingcat@192.webp"}
               />
             </div>
           </div>

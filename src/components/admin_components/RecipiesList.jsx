@@ -8,7 +8,6 @@ function RecipiesList() {
   useEffect(()=> {
    getAllRecipies() 
   },[])
-  console.log(recipies)
   return (
     <div>
       <ul className="list bg-blue-100 rounded-box shadow-md">

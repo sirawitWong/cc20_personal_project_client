@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { getAllIngredients, getIngredientById } from "../api/ingredient";
+import { deleteIngredient } from "../api/admin";
 
 const useIngredientStore = create((set, get) => ({
     Ingredients: [],
@@ -12,6 +13,11 @@ const useIngredientStore = create((set, get) => ({
     getIngredientById: async (id) => {
         const response = await getIngredientById(id)
         set({current_recipe: response.data.result})
+        return response
+    },
+    deleteIngredient: async (token, id) => {
+        const response = await deleteIngredient(token, id)
+        get().getAllIngredients()
         return response
     }
 
