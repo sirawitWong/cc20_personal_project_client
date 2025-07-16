@@ -3,6 +3,7 @@ import { registerSchema } from "../../utils/validator";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { registerAdmin } from "../../api/admin";
 import useUserStore from "../../stores/authStore";
+import { toast } from "react-toastify";
 
 function AdminRegister() {
   const token = useUserStore(state => state.token)
@@ -13,9 +14,10 @@ function AdminRegister() {
   const onSubmit = async (data) => {
     try {
       await registerAdmin(token, data)
+      toast.success("Registered")
       reset()
     } catch (err) {
-      console.log(err);
+      toast.error(err.message)
     }
   };
   const { isSubmitting, errors } = formState;

@@ -1,3 +1,5 @@
+import { toast } from "react-toastify";
+import { banUser } from "../../api/admin";
 import { DeleteIcon } from "../../icons";
 import useUserStore from "../../stores/authStore";
 import useUsersStore from "../../stores/userStore";
@@ -5,9 +7,13 @@ import useUsersStore from "../../stores/userStore";
 function UserCard({ id, name, username, image="#", role, status }) {
   const token = useUserStore((state) => state.token);
   const deleteUser = useUsersStore((state) => state.deleteUser);
-  const handleBan = () => {
-    console.log(id);
-    document.getElementById(`ban_modal_${id}`).close();
+  const handleBan = async () => {
+    try{
+      await banUser(token, id)
+      document.getElementById(`ban_modal_${id}`).close();
+    }catch(err){
+      toast.error(err.message)
+    }
   };
   const handleBanModal = () => {
     document.getElementById(`ban_modal_${id}`).showModal();
