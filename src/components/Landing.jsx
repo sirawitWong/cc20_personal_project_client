@@ -22,7 +22,7 @@ function Landing() {
               et a id nisi.
             </p>
             {user ?
-            <Link to="" className="btn btn-primary">Share your Recipe</Link> :
+            <Link to="/user/create/recipe" className="btn btn-primary">Share your Recipe</Link> :
               <Link to="/login" className="btn btn-primary">Login to Share your Recipe</Link> }
           </div>
         </div>
