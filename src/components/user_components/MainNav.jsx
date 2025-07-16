@@ -10,10 +10,10 @@ function MainNav() {
   const user = useUserStore((state) => state.user);
   const token = useUserStore((state) => state.token);
   const logout = useUserStore((state) => state.logout);
-  const getMe = useUserStore((state) => state.getMe)
-  useEffect(()=>{
-    getMe(token)
-  },[])
+  const getMe = useUserStore((state) => state.getMe);
+  useEffect(() => {
+    getMe(token);
+  }, []);
   return (
     <>
       <div className="navbar bg-accent-content shadow-sm">
@@ -57,15 +57,6 @@ function MainNav() {
               >
                 CREATE
               </NavLink>
-              <NavLink
-                role="tab"
-                to="/user/recipies"
-                className={({ isActive }) =>
-                  isActive ? style.active : style.inactive
-                }
-              >
-                MY RECIPIES
-              </NavLink>
             </>
           )}
         </div>
@@ -86,7 +77,10 @@ function MainNav() {
                 <div className="w-10 rounded-full">
                   <img
                     alt="Tailwind CSS Navbar component"
-                    src={user?.profilePic || "https://img.daisyui.com/images/profile/demo/yellingcat@192.webp"}
+                    src={
+                      user?.profilePic ||
+                      "https://img.daisyui.com/images/profile/demo/yellingcat@192.webp"
+                    }
                   />
                 </div>
               </div>

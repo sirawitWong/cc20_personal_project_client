@@ -16,7 +16,6 @@ const IngredientManage = lazy(() => import("../pages/admin/IngredientManage"));
 const EquipmentManage = lazy(() => import("../pages/admin/EquipmentManage"));
 const AdminRegister = lazy(() => import("../pages/admin/AdminRegister"));
 const Manage = lazy(() => import("../pages/admin/Manage"));
-const MyRecipe = lazy(() => import("../pages/user/MyRecipe"));
 
 const guestRouter = createBrowserRouter([
   {
@@ -42,7 +41,6 @@ const userRouter = createBrowserRouter([
       { path: "/recipe/:id", element: <Recipe /> },
       { path: "/user", element: <Profile /> },
       { path: "/user/create/recipe", element: <CreateRecipe /> },
-      { path: "/user/recipies", element: <MyRecipe /> },
       { path: "*", element: <Navigate to="/" /> },
     ],
   },
